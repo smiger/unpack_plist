@@ -1,19 +1,19 @@
-ä»£ç ä½¿ç”¨python36
+´úÂëÊ¹ÓÃpython36
 
 
-1ã€å®‰è£…ä¾èµ–
+1¡¢°²×°ÒÀÀµ
 
 
 pip install -r requirements.txt
 
 
-2ã€è¿è¡Œ
+2¡¢ÔËĞĞ
 
 
 python unpack_plist.py
 
 
-3ã€æ ¹æ®ç•Œé¢æç¤ºè§£æ
+3¡¢¸ù¾İ½çÃæÌáÊ¾½âÎö
 
 
-è¯¦ç»†ä½¿ç”¨æ–¹æ³•ï¼šhttp://www.tengewang.cn/archives/269.html
+ÏêÏ¸Ê¹ÓÃ·½·¨£ºhttp://www.tengewang.cn/archives/269.html
