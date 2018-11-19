@@ -1,0 +1,9 @@
+*.py[cod]
+
+# Packages
+dist
+build
+
+
+__pycache__
+.idea
