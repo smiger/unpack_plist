@@ -1,11 +1,16 @@
 # -*- coding: utf-8 -*-
 import os
 import sys
+import mainui
 from PIL import Image
 from xml.etree import ElementTree
 
-class StartRun():
-    def __init__(self):
+from PyQt5.QtCore import QThread
+from PyQt5.QtWidgets import *
+
+class StartRun(QThread):
+    def __init__(self, parent=None):
+        super().__init__(parent)
         self.filename = ''
 
     def setFilename(self,filename= ''):
@@ -79,10 +84,12 @@ class StartRun():
 
         else:
             print("Warning:Wrong data format on parsing: '" + ext + "'!")
+            ui.outputWritten("Warning:Wrong data format on parsing: '" + ext + "'!\n")
             exit(1)
 
 
     def gen_png_from_data(self,filename, ext):
+        ui.outputWritten("unpack start!\n")
         big_image = Image.open(filename + ".png")
         frames = self.frames_from_data(filename, ext)
         for k, v in frames:
@@ -101,7 +108,9 @@ class StartRun():
             if not outfile.endswith('.png'):
                 outfile += '.png'
             print(outfile, "generated")
+            ui.outputWritten(outfile+" generated\n")
             result_image.save(outfile)
+        ui.outputWritten("unpack end!\n")
 
     def endWith(self,s,*endstring):
         array = map(s.endswith,endstring)
@@ -118,9 +127,11 @@ class StartRun():
             self.gen_png_from_data(filename, ext)
         else:
             print("Warning:Make sure you have both " + data_filename + " and " + png_filename + " files in the same directory")
+            ui.outputWritten("Warning:Make sure you have both " + data_filename + " and " + png_filename + " files in the same directory\n")
 
     def run(self):
         if self.filename == '':
+            ui.outputWritten("Warning:请选择文件！\n")
             return
         # filename = sys.argv[1]
         path_or_name = self.filename.split('.')[0]
@@ -132,8 +143,13 @@ def start_run(filename):
     start_run_thread.start()
 
 if __name__ == '__main__':
-    filename = sys.argv[1]
+    app = QApplication(sys.argv)
+    MainWindow = QMainWindow()
+    ui = mainui.Ui_MainWindow()
+    ui.setupUi(MainWindow)
+    ui.btn_input.clicked.connect(ui.choose_png_file)
+    ui.btn_output.clicked.connect(lambda:start_run(ui.lineEdit.text()))
     start_run_thread = StartRun()
-    start_run_thread.setFilename(filename)
-    start_run_thread.run()
+    MainWindow.show()
+    sys.exit(app.exec_())
 
